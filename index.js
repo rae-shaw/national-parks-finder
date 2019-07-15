@@ -1,4 +1,4 @@
-//'use strict';
+
 
 const searchURL = 'developer.nps.gov/api/v1/parks';
 const apiKey = 'yw45NGkFZEicOJWZOJ6yxcMv4SgBV1BwVYYja0em';
@@ -6,24 +6,22 @@ const apiKey = 'yw45NGkFZEicOJWZOJ6yxcMv4SgBV1BwVYYja0em';
 
 
 function displayResults(responseJson){
-	console.log(responseJson);
+	console.log('displayResults input = ',responseJson);
 	$('#results-list').empty();
 
-	for (let i=0; i<responseJson.length; i++){
+	for (let i=0; i<responseJson.data.length; i++){
 		$('#results-list').append(
       	`<li><h3><a href="${responseJson.data[i].url}">${responseJson.data[i].fullName}</a></h3>
       	<p>${responseJson.data[i].description}</p>
      	 </li>`
     )};
-
-	console.log(responseJson.data[0].fullName);
+	console.log('responseJson first element ',responseJson.data[0].description);
 
   	$('#results').removeClass('hidden');
 	}
 
 
 function formatQueryParams(params){
-	console.log(params);
 	const queryItems = Object.keys(params)
 	 .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
   	return queryItems.join('&');
@@ -34,14 +32,13 @@ function watchForm(){
 		event.preventDefault();
 		const searchState = $('#js-search-term').val();
 		const maxResults = $('#js-max-results').val();
-		console.log('clicked submit!');
 	getNationalParks(searchState, maxResults);
 	});
 }
 
 function getNationalParks(states, results){
-	console.log(states);
-	console.log(results);
+	//console.log(states);
+	//console.log(results);
 
 	const params = {
     stateCode: states,
@@ -66,8 +63,6 @@ function getNationalParks(states, results){
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
 }
-
-	//displayResults();
 
 
 
